@@ -1,0 +1,6 @@
+
+# Ignore the Node modules folder
+node_modules
+
+# Ignore the environment file (contains secret API key)
+.env

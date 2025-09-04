@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Loan Underwriting Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-link { transition: all 0.2s ease-in-out; border-left: 3px solid transparent; }
+        .sidebar-link:hover { background-color: #374151; border-left-color: #3B82F6; color: #F9FAFB; }
+        .sidebar-link.active { background-color: #1F2937; border-left-color: #3B82F6; color: #FFFFFF; font-weight: 600; }
+        #chat-window::-webkit-scrollbar, .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        #chat-window::-webkit-scrollbar-track, .custom-scrollbar::-webkit-scrollbar-track { background: #374151; }
+        #chat-window::-webkit-scrollbar-thumb, .custom-scrollbar::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 3px; }
+        #chat-window::-webkit-scrollbar-thumb:hover, .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #6B7280; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+    <div class="flex h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-gray-800 flex flex-col">
+            <div class="h-16 flex items-center justify-center border-b border-gray-700">
+                <h1 class="text-xl font-bold text-white">SaralCredit</h1>
+            </div>
+            <nav class="flex-1 px-4 py-6 space-y-2">
+                <a href="#" class="sidebar-link active flex items-center p-3 rounded-lg" data-target="chat-tool">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                    <span>Financial Assistant</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-target="analysis-tool">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Credit Analyzer</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-target="simplify-tool">
+                     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+                    <span>Doc Simplifier</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-target="eligibility-tool">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Eligibility Checker</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-target="emi-advisor-tool">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M12 8h.01M15 8h.01M15 5h.01M12 5h.01M9 5h.01M4 7h1a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1zM19 7h1a1 1 0 011 1v10a1 1 0 01-1 1h-1a1 1 0 01-1-1V8a1 1 0 011-1z"></path></svg>
+                    <span>EMI Advisor</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-target="fraud-tool">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    <span>AI Fraud Shield</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <!-- All tool content divs go here, same as before -->
+            <div id="chat-tool" class="tool-content">
+                <header class="mb-8"><h2 class="text-3xl font-bold text-white">Smart Financial Assistant</h2><p class="text-gray-400 mt-1">Ask questions about loan processes, eligibility, or financial advice.</p></header>
+                <div class="bg-gray-800 rounded-lg shadow-xl flex flex-col h-[70vh]"><div id="chat-window" class="flex-grow p-6 space-y-4 overflow-y-auto"><div class="p-3 bg-blue-600/50 rounded-lg max-w-md self-start"><p class="text-sm">Hello! I am your AI assistant. How can I help you today?</p></div></div><div class="p-4 border-t border-gray-700"><div class="flex items-center bg-gray-700 rounded-lg"><input type="text" id="chat-input" placeholder="Ask a question..." class="flex-grow p-3 bg-transparent focus:outline-none text-white"><button id="send-chat-btn" class="bg-blue-600 text-white px-6 py-3 rounded-r-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50">Send</button></div></div></div>
+            </div>
+            <div id="analysis-tool" class="tool-content hidden">
+                <header class="mb-8"><h2 class="text-3xl font-bold text-white">Alternative Data Credit Analyzer</h2><p class="text-gray-400 mt-1">Paste unstructured text to generate a credit insights summary.</p></header>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[70vh]"><div class="bg-gray-800 rounded-lg shadow-xl flex flex-col"><div class="p-4 border-b border-gray-700"><h3 class="font-semibold text-white">Input Data</h3></div><textarea id="data-input" class="w-full flex-grow bg-gray-800 p-4 text-gray-300 focus:outline-none resize-none custom-scrollbar" placeholder="Paste SMS data here...">- Bill for electricity Rs. 850 paid.
+- Salary credit Rs. 15,000.
+- Mobile recharge Rs. 299 successful.</textarea><div class="p-4 border-t border-gray-700"><button id="analyze-data-btn" class="w-full bg-green-600 text-white p-3 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50">✨ Generate Credit Insights</button></div></div><div class="bg-gray-800 rounded-lg shadow-xl flex flex-col"><div class="p-4 border-b border-gray-700"><h3 class="font-semibold text-white">AI Generated Insights</h3></div><div id="analysis-output" class="p-6 overflow-y-auto custom-scrollbar"><p class="text-gray-500">Your credit insights will appear here...</p></div></div></div>
+            </div>
+            <div id="simplify-tool" class="tool-content hidden">
+                <header class="mb-8"><h2 class="text-3xl font-bold text-white">Loan Agreement Simplifier</h2><p class="text-gray-400 mt-1">Paste complex legal text to get a simple, easy-to-understand summary.</p></header>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[70vh]"><div class="bg-gray-800 rounded-lg shadow-xl flex flex-col"><div class="p-4 border-b border-gray-700"><h3 class="font-semibold text-white">Original Document</h3></div><textarea id="agreement-input" class="w-full flex-grow bg-gray-800 p-4 text-gray-300 focus:outline-none resize-none custom-scrollbar" placeholder="Paste complex loan text here...">This Loan Agreement is made on this 5th day of September, 2025. The principal amount is INR 10,000. The interest is fixed at eighteen percent (18%) per annum. In the event of default, a penal interest of two percent (2%) per month shall be levied on the outstanding amount.</textarea><div class="p-4 border-t border-gray-700"><button id="simplify-btn" class="w-full bg-purple-600 text-white p-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:opacity-50">✨ Simplify Document</button></div></div><div class="bg-gray-800 rounded-lg shadow-xl flex flex-col"><div class="p-4 border-b border-gray-700"><h3 class="font-semibold text-white">Simplified Summary</h3></div><div id="simplified-output" class="p-6 overflow-y-auto custom-scrollbar"><p class="text-gray-500">Your simplified summary will appear here...</p></div></div></div>
+            </div>
+            <div id="eligibility-tool" class="tool-content hidden">
+                 <header class="mb-8"><h2 class="text-3xl font-bold text-white">AI Loan Eligibility Checker</h2><p class="text-gray-400 mt-1">Get a preliminary assessment of your loan eligibility.</p></header>
+                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[70vh]"><div class="bg-gray-800 rounded-lg shadow-xl flex flex-col p-6"><h3 class="font-semibold text-white text-lg mb-6">Enter Your Financial Details</h3><div class="space-y-6"><div><label for="monthly-income" class="block text-sm font-medium text-gray-400">Monthly Income (INR)</label><input type="number" id="monthly-income" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-white" placeholder="e.g., 25000"></div><div><label for="monthly-expenses" class="block text-sm font-medium text-gray-400">Monthly Expenses (INR)</label><input type="number" id="monthly-expenses" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-white" placeholder="e.g., 15000"></div><div><label for="loan-amount" class="block text-sm font-medium text-gray-400">Desired Loan Amount (INR)</label><input type="number" id="loan-amount" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-white" placeholder="e.g., 50000"></div></div><div class="mt-auto pt-6"><button id="check-eligibility-btn" class="w-full bg-indigo-600 text-white p-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50">✨ Check Eligibility</button></div></div><div class="bg-gray-800 rounded-lg shadow-xl flex flex-col"><div class="p-4 border-b border-gray-700"><h3 class="font-semibold text-white">AI Preliminary Assessment</h3></div><div id="eligibility-output" class="p-6 overflow-y-auto custom-scrollbar"><p class="text-gray-500">Your eligibility assessment will appear here...</p></div></div></div>
+            </div>
+            <div id="emi-advisor-tool" class="tool-content hidden">
+                <header class="mb-8"><h2 class="text-3xl font-bold text-white">AI-Powered EMI Advisor</h2><p class="text-gray-400 mt-1">Calculate your EMI and get personalized advice from our AI.</p></header>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[70vh]"><div class="bg-gray-800 rounded-lg shadow-xl flex flex-col p-6"><h3 class="font-semibold text-white text-lg mb-6">Loan Details</h3><div class="space-y-6"><div><label for="emi-loan-amount" class="block text-sm font-medium text-gray-400">Loan Amount (INR)</label><input type="number" id="emi-loan-amount" value="100000" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-white"></div><div><label for="emi-interest-rate" class="block text-sm font-medium text-gray-400">Annual Interest Rate (%)</label><input type="number" id="emi-interest-rate" value="12" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-white"></div><div><label for="emi-loan-tenure" class="block text-sm font-medium text-gray-400">Loan Tenure (in Years)</label><input type="number" id="emi-loan-tenure" value="5" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-white"></div></div><div class="mt-8 border-t border-gray-700 pt-6"><p class="text-gray-400">Your Calculated EMI is:</p><p id="emi-result" class="text-4xl font-bold text-white mt-2">₹ 0</p></div><div class="mt-auto pt-6"><button id="get-ai-advice-btn" class="w-full bg-cyan-600 text-white p-3 rounded-lg font-semibold hover:bg-cyan-700 transition-colors disabled:opacity-50">✨ Get AI Advice on this EMI</button></div></div><div class="bg-gray-800 rounded-lg shadow-xl flex flex-col"><div class="p-4 border-b border-gray-700"><h3 class="font-semibold text-white">AI Financial Advice</h3></div><div id="emi-advice-output" class="p-6 overflow-y-auto custom-scrollbar"><p class="text-gray-500">Calculate your EMI first, then click the button for AI advice...</p></div></div></div>
+            </div>
+            <div id="fraud-tool" class="tool-content hidden">
+                 <header class="mb-8"><h2 class="text-3xl font-bold text-white">AI Fraud Shield</h2><p class="text-gray-400 mt-1">Input underwriter notes to identify potential fraud red flags.</p></header>
+                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[70vh]"><div class="bg-gray-800 rounded-lg shadow-xl flex flex-col"><div class="p-4 border-b border-gray-700"><h3 class="font-semibold text-white">Underwriter Observations</h3></div><textarea id="fraud-input" class="w-full flex-grow bg-gray-800 p-4 text-gray-300 focus:outline-none resize-none custom-scrollbar" placeholder="Enter notes about the application...">- Applicant income is 80,000/month as a shopkeeper. Seems high.
+- Utility bill address does not match application address.
+- Multiple small, uniform cash deposits before applying.
+- Reference works at the same shop.</textarea><div class="p-4 border-t border-gray-700"><button id="analyze-fraud-btn" class="w-full bg-red-600 text-white p-3 rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:opacity-50">✨ Analyze for Red Flags</button></div></div><div class="bg-gray-800 rounded-lg shadow-xl flex flex-col"><div class="p-4 border-b border-gray-700"><h3 class="font-semibold text-white">AI Fraud Analysis Report</h3></div><div id="fraud-output" class="p-6 overflow-y-auto custom-scrollbar"><p class="text-gray-500">The fraud analysis report will appear here...</p></div></div></div>
+            </div>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const navLinks = document.querySelectorAll('.sidebar-link');
+    const contentDivs = document.querySelectorAll('.tool-content');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('data-target');
+            navLinks.forEach(navLink => navLink.classList.remove('active'));
+            link.classList.add('active');
+            contentDivs.forEach(div => {
+                div.id === targetId ? div.classList.remove('hidden') : div.classList.add('hidden');
+            });
+        });
+    });
+
+    // This is the corrected JavaScript function to call the backend.
+    // It uses a relative URL, which is essential for the single-server method.
+    const callGeminiApi = async (prompt, type) => {
+        const API_URL = '/api/gemini'; // Relative URL
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt, type }),
+            });
+            if (!response.ok) {
+                const errorBody = await response.json();
+                console.error("Backend returned an error:", errorBody);
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            return data.response;
+        } catch (error) {
+            console.error("Error fetching from backend:", error);
+            return "Connection to backend failed. Is the server running? Check browser console for details.";
+        }
+    };
+
+    // --- DOM Element References ---
+    const chatWindow = document.getElementById('chat-window');
+    const chatInput = document.getElementById('chat-input');
+    const sendChatBtn = document.getElementById('send-chat-btn');
+    const dataInput = document.getElementById('data-input');
+    const analyzeDataBtn = document.getElementById('analyze-data-btn');
+    const analysisOutput = document.getElementById('analysis-output');
+    const agreementInput = document.getElementById('agreement-input');
+    const simplifyBtn = document.getElementById('simplify-btn');
+    const simplifiedOutput = document.getElementById('simplified-output');
+    const monthlyIncome = document.getElementById('monthly-income');
+    const monthlyExpenses = document.getElementById('monthly-expenses');
+    const loanAmount = document.getElementById('loan-amount');
+    const checkEligibilityBtn = document.getElementById('check-eligibility-btn');
+    const eligibilityOutput = document.getElementById('eligibility-output');
+    const emiLoanAmount = document.getElementById('emi-loan-amount');
+    const emiInterestRate = document.getElementById('emi-interest-rate');
+    const emiLoanTenure = document.getElementById('emi-loan-tenure');
+    const emiResult = document.getElementById('emi-result');
+    const getAiAdviceBtn = document.getElementById('get-ai-advice-btn');
+    const emiAdviceOutput = document.getElementById('emi-advice-output');
+    const fraudInput = document.getElementById('fraud-input');
+    const analyzeFraudBtn = document.getElementById('analyze-fraud-btn');
+    const fraudOutput = document.getElementById('fraud-output');
+
+    // --- Helper Functions ---
+    const addUserMessage = (message) => {
+        const el = document.createElement('div');
+        el.className = 'p-3 bg-gray-700 rounded-lg max-w-md self-end';
+        el.innerHTML = `<p class="text-sm">${message}</p>`;
+        chatWindow.appendChild(el);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    };
+    const addBotMessage = (message, isLoading = false) => {
+        const el = document.createElement('div');
+        if (isLoading) {
+            el.id = 'loading-bubble';
+            el.className = 'p-3 bg-blue-600/50 rounded-lg max-w-md self-start';
+            el.innerHTML = `<div class="flex items-center space-x-2"><div class="w-2 h-2 bg-blue-300 rounded-full animate-pulse"></div><div class="w-2 h-2 bg-blue-300 rounded-full animate-pulse [animation-delay:0.2s]"></div><div class="w-2 h-2 bg-blue-300 rounded-full animate-pulse [animation-delay:0.4s]"></div></div>`;
+        } else {
+            el.className = 'p-3 bg-blue-600/50 rounded-lg max-w-md self-start';
+            const formattedMessage = message.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>').replace(/\*/g, '• ');
+            el.innerHTML = `<p class="text-sm">${formattedMessage}</p>`;
+        }
+        chatWindow.appendChild(el);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    };
+    const calculateEMI = () => {
+        const p = parseFloat(emiLoanAmount.value);
+        const r = parseFloat(emiInterestRate.value) / 12 / 100;
+        const n = parseFloat(emiLoanTenure.value) * 12;
+        if (!p || !r || !n) { emiResult.textContent = '₹ 0'; getAiAdviceBtn.disabled = true; return; }
+        const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+        emiResult.textContent = `₹ ${emi.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+        getAiAdviceBtn.disabled = false;
+    };
+    [emiLoanAmount, emiInterestRate, emiLoanTenure].forEach(el => el.addEventListener('input', calculateEMI));
+    calculateEMI();
+
+    // --- Event Listeners ---
+    sendChatBtn.addEventListener('click', async () => {
+        const userMessage = chatInput.value.trim();
+        if (!userMessage) return;
+        addUserMessage(userMessage); chatInput.value = ''; sendChatBtn.disabled = true;
+        addBotMessage('', true);
+        const botResponse = await callGeminiApi(userMessage, 'chat');
+        document.getElementById('loading-bubble')?.remove();
+        addBotMessage(botResponse);
+        sendChatBtn.disabled = false; chatInput.focus();
+    });
+    chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatBtn.click(); });
+
+    analyzeDataBtn.addEventListener('click', async () => {
+        const data = dataInput.value;
+        if (!data.trim()) { analysisOutput.innerHTML = `<p class="text-red-500">Please enter data.</p>`; return; }
+        analysisOutput.innerHTML = `<div class="flex items-center justify-center h-full"><p class="text-gray-400 animate-pulse">✨ Analyzing...</p></div>`;
+        analyzeDataBtn.disabled = true;
+        const result = await callGeminiApi(data, 'analysis');
+        analysisOutput.innerHTML = `<h4 class="font-bold text-lg mb-2 text-white">Credit Insights Summary:</h4><p class="text-gray-300 whitespace-pre-line leading-relaxed">${result.replace(/\n/g, '<br>').replace(/\*/g, '• ')}</p>`;
+        analyzeDataBtn.disabled = false;
+    });
+
+    simplifyBtn.addEventListener('click', async () => {
+        const text = agreementInput.value;
+        if (!text.trim()) { simplifiedOutput.innerHTML = `<p class="text-red-500">Please paste document text.</p>`; return; }
+        simplifiedOutput.innerHTML = `<div class="flex items-center justify-center h-full"><p class="text-gray-400 animate-pulse">✨ Simplifying...</p></div>`;
+        simplifyBtn.disabled = true;
+        const result = await callGeminiApi(text, 'simplify');
+        simplifiedOutput.innerHTML = `<h4 class="font-bold text-lg mb-2 text-white">Simple Summary:</h4><p class="text-gray-300 whitespace-pre-line leading-relaxed">${result.replace(/\n/g, '<br>').replace(/\*/g, '• ')}</p>`;
+        simplifyBtn.disabled = false;
+    });
+
+    checkEligibilityBtn.addEventListener('click', async () => {
+        const income = monthlyIncome.value, expenses = monthlyExpenses.value, loan = loanAmount.value;
+        if (!income || !expenses || !loan) { eligibilityOutput.innerHTML = `<p class="text-red-500">Please fill in all details.</p>`; return; }
+        eligibilityOutput.innerHTML = `<div class="flex items-center justify-center h-full"><p class="text-gray-400 animate-pulse">✨ Assessing profile...</p></div>`;
+        checkEligibilityBtn.disabled = true;
+        const prompt = `Income: ${income}, Expenses: ${expenses}, Loan: ${loan}`;
+        const result = await callGeminiApi(prompt, 'eligibility');
+        eligibilityOutput.innerHTML = `<p class="text-gray-300 whitespace-pre-line leading-relaxed">${result.replace(/\n/g, '<br>').replace(/\*/g, '• ')}</p>`;
+        checkEligibilityBtn.disabled = false;
+    });
+
+    getAiAdviceBtn.addEventListener('click', async () => {
+        const p = emiLoanAmount.value, r = emiInterestRate.value, t = emiLoanTenure.value, emi = emiResult.textContent;
+        if (emi === '₹ 0') { emiAdviceOutput.innerHTML = `<p class="text-red-500">Calculate a valid EMI first.</p>`; return; }
+        emiAdviceOutput.innerHTML = `<div class="flex items-center justify-center h-full"><p class="text-gray-400 animate-pulse">✨ Preparing advice...</p></div>`;
+        getAiAdviceBtn.disabled = true;
+        const prompt = `Loan Amount: ${p}, Interest Rate: ${r}%, Tenure: ${t} years, Calculated EMI: ${emi}`;
+        const result = await callGeminiApi(prompt, 'emi_advice');
+        emiAdviceOutput.innerHTML = `<p class="text-gray-300 whitespace-pre-line leading-relaxed">${result.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>').replace(/\*/g, '• ')}</p>`;
+        getAiAdviceBtn.disabled = false;
+    });
+
+    analyzeFraudBtn.addEventListener('click', async () => {
+        const notes = fraudInput.value;
+        if (!notes.trim()) { fraudOutput.innerHTML = `<p class="text-red-500">Please enter observations.</p>`; return; }
+        fraudOutput.innerHTML = `<div class="flex items-center justify-center h-full"><p class="text-gray-400 animate-pulse">✨ Analyzing for fraud indicators...</p></div>`;
+        analyzeFraudBtn.disabled = true;
+        const result = await callGeminiApi(notes, 'fraud_analysis');
+        fraudOutput.innerHTML = `<p class="text-gray-300 whitespace-pre-line leading-relaxed">${result.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>').replace(/\*/g, '• ')}</p>`;
+        analyzeFraudBtn.disabled = false;
+    });
+});
+</script>
+</body>
+</html>
+
