@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // This is the corrected JavaScript function to call the backend.
     // It uses a relative URL, which is essential for the single-server method.
     const callGeminiApi = async (prompt, type) => {
-        const API_URL = '/api/gemini'; // Relative URL
+        const API_URL = 'https://saral-credit-app.onrender.com'; // Relative URL
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',
